@@ -166,48 +166,6 @@ def score_check():
 					board[x][y] = 1
 					board[x+1][y] = 3
 
-
-	#print(rows_to_delete)
-	#row_check = 1
-	'''
-	rows_to_delete = list()
-	for x in range(1, height-1, 1):
-		row_check = 1
-		for y in range(1, width-1, 1):
-			element = board[x][y]
-			if element != 3:
-				row_check = 0
-		if row_check:
-			rows_to_delete.append(x)
-
-	print(rows_to_delete)
-
-	for row in rows_to_delete:
-		for y in range(1, width-1, 1):
-			board[row][y] = 1
-		for x in range(1, row+1, 1):
-			for y in range(1, width-1, 1):
-				element = board[x][y]
-				if element == 3:
-					board[x][y] = 1
-					board[x+1][y] = 3
-'''
-				#score += 1
-	#for y in range(1, width-1, 1):
-	#	element = board[height-2][y]
-	#	if element != 3:
-	#		row_check = 0
-	#		break
-
-	'''		for y in range(1, width-1, 1):
-			board[height-2][y] = 1
-		for x in range(height-1, 1, -1):
-			for y in range(width):
-				element = board[x][y]
-				if element == 3:
-					board[x][y] = 1
-					board[x+1][y] = 3'''
-
 	return len(rows_to_delete)
 			
 
@@ -289,45 +247,6 @@ def move_block_down():
 								#print(st)
 								board[x][y] = 3
 					return "block_frozen"
-					
-				#if board[a+1][b] != 9 and board[a+1][b] != 3:
-				#	board[a][b] = 1
-				#	board[a+1][b] = 2
-				#else:
-					#freeze					
-
-
-
-				'''if board[x+1][y] == 9 or board[x+1][y] == 3:
-				#move block
-				#board[x][y] = 1
-				#board[x+1][y] = 2
-				print("freezuje")
-				for x in range(height-1, 0, -1):
-					for y in range(1, width-1, 1):
-						if board[x][y] == 2:
-							board[x][y] = 3
-							check = "freezing x={}, y={}".format(x, y)
-							print(check)
-				return "block_frozen"
-			else:
-						board[x][y] = 1
-						board[x+1][y] = 2
-						check = "moving x={}, y={}".format(x, y)
-						print(check)
-						#freeze block
-						#for x in range(height-1, 0, -1):
-						#	for y in range(1, width-1, 1):
-						#		if board[x][y] == 2:
-						#			board[x][y] = 3
-						#			check = "freezing x={}, y={}".format(x, y)
-						#			print(check)
-						#board[x][y] = 3
-
-						#return "block_frozen"
-						#break
-		#if moved:
-			#break'''
 
 def generate_block():
 	r = random.randrange(3)
@@ -409,9 +328,7 @@ while 1:
 			sleep_time = 0.5
 		
 		print_board()
-		#horizontal_control("a")
-		#print(horizontal_move_direction)
-		#horizontal_control(horizontal_move_direction)
+		
 		result = move_block_down()
 		if result == "game_over":
 			break
