@@ -56,6 +56,7 @@ class KBHit:
 # 9 - frame
 # 2 - moving block
 # 3 - dead block
+# 4 - block shadow
 
 
 width = 10
@@ -65,6 +66,28 @@ score = 0
 block_position = ""
 
 board = [[1 for x in range(width)] for y in range(height)]
+
+def block_shadow(mode):
+	if mode == "show":
+		for a in range(height-1, 0, -1):
+			for b in range(1, width-1, 1):
+				element = board[a][b]
+				if element == 2:
+					for row in range(height-1, a, -1):
+						if board[row][b] == 1:
+							board[row][b] = 4
+							break
+	elif mode == "hide":
+		for a in range(height-1, 0, -1):
+			for b in range(1, width-1, 1):
+				element = board[a][b]
+				if element == 4:
+					board[a][b] = 1
+
+		#[el = 1 for el in board if el == 4]
+
+
+
 
 def rotate_block(block_type):
 	block_rotated = 0
@@ -179,26 +202,32 @@ def move_block_horizontal(direction):
 	for x in range(1, height-1, 1):
 		if direction == "left":
 			for y in range(1, width-1, 1):
+			#for y in range(width-1, 1, -1):
 				element = board[x][y]
 				if element == 2: #and move_possible_check("left"): #board[x][y-1] != 9:
-			#	cords = "%s %s" % (x, y)
-			#	print(cords)
+					#cords = "%s %s" % (x, y)
+					#print(cords)
 			#	if direction == "left":
 					board[x][y] = 1
 					board[x][y-1] = 2
 			#	elif direction == "right":
 			#		board[x][y] = 1
 			#		board[x][y+1] = 2
+				#else: break
 		elif direction == "right":
 			for y in range(width-1, 0, -1):
+			#for y in range(1, width-1, 1):
 				element = board[x][y]
-				if element == 2: #and move_possible_check("right"): #board[x][y+1] != 9:
+				if element == 2:  #and move_possible_check("right"): #board[x][y+1] != 9:
+					cords = "%s %s" % (x, y)
+					print(cords)
 					board[x][y] = 1
 					board[x][y+1] = 2
+				#else: break
 
 def move_possible_check(direction):
 	check = 1
-	for x in range(height-1, 0, -1):
+	"""for x in range(height-1, 0, -1):
 		for y in range(1, width-1, 1):
 			element = board[x][y]
 			if element == 2:
@@ -206,11 +235,30 @@ def move_possible_check(direction):
 					if board[x+1][y] == 9 or board[x+1][y] == 3:
 						check = 0
 				elif direction == "left":
-					if board[x][y-1] == 9 or board[x][y-1] == 3 or board[x][y-1] == 2:
+					if board[x][y-1] == 9 or board[x][y-1] == 3: #or board[x][y-1] == 2:
 						check = 0
 				elif direction == "right":
-					if board[x][y+1] == 9 or board[x][y+1] == 3 or board[x][y+1] == 2:
+					if board[x][y+1] == 9 or board[x][y+1] == 3: #or board[x][y+1] == 2:
 						check = 0
+						"""
+	if direction == 'down':
+		for x in range(height-1, 0, -1):
+			for y in range(1, width-1, 1):
+				element = board[x][y]
+				if element == 2:
+					if board[x+1][y] == 9 or board[x+1][y] == 3:
+						check = 0
+	elif direction == 'left':
+		for x in range(height-1, 0, -1):
+			if board[x][1] == 2:
+				check = 0
+	elif direction == 'right':
+		for x in range(height-1, 0, -1):
+		    if board[x][width-2] == 2:
+		    	check = 0
+
+	
+
 	if check:
 		return True
 	else:
@@ -297,6 +345,8 @@ def print_board():
 				print(colorama.Fore.RED + "@", end = '')
 			elif element == 3:
 				print(colorama.Fore.BLUE + "O", end = '')
+			elif element == 4:
+				print(colorama.Fore.CYAN + "O", end = '')
 		print("\n", end = '')
 	print(score)
 
@@ -312,13 +362,24 @@ sleep_time = 0.5
 
 while 1:
 		#sleep_time = 0.5
+		#kb = KBHit()
 		if kb.kbhit():
 			horizontal_move_direction = kb.getch()
-			if horizontal_move_direction == 'a' or horizontal_move_direction == 'd':
-				horizontal_control(horizontal_move_direction)
+			#if horizontal_move_direction == 'a' or horizontal_move_direction == 'd':
+			#	horizontal_control(horizontal_move_direction)
+			#elif horizontal_move_direction == 'k':
+			#	rotate_block(block_type)
+				#print(block_type)
+			#elif horizontal_move_direction == 's':
+			#	sleep_time = 0.01
+			if horizontal_move_direction == 'a':
+				if move_possible_check("left"):
+					horizontal_control(horizontal_move_direction)
+			elif horizontal_move_direction == 'd':
+				if move_possible_check("right"):
+					horizontal_control(horizontal_move_direction)
 			elif horizontal_move_direction == 'k':
 				rotate_block(block_type)
-				#print(block_type)
 			elif horizontal_move_direction == 's':
 				sleep_time = 0.01
 
@@ -327,6 +388,7 @@ while 1:
 			block_generated = 1
 			sleep_time = 0.5
 		
+		block_shadow("show")
 		print_board()
 		
 		result = move_block_down()
@@ -338,4 +400,6 @@ while 1:
 		
 		
 		time.sleep(sleep_time)
+		block_shadow("hide")
 		os.system("clear")
+
