@@ -1,3 +1,3 @@
 # console_tetris
-A, S, D - left, down, right
-K - rotate
+# A, S, D - left, down, right
+# K - rotate
