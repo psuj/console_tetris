@@ -219,8 +219,8 @@ def move_block_horizontal(direction):
 			#for y in range(1, width-1, 1):
 				element = board[x][y]
 				if element == 2:  #and move_possible_check("right"): #board[x][y+1] != 9:
-					cords = "%s %s" % (x, y)
-					print(cords)
+					#cords = "%s %s" % (x, y)
+					#print(cords)
 					board[x][y] = 1
 					board[x][y+1] = 2
 				#else: break
