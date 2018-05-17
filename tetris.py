@@ -361,8 +361,6 @@ block_type = ""
 sleep_time = 0.5
 
 while 1:
-		#sleep_time = 0.5
-		#kb = KBHit()
 		if kb.kbhit():
 			horizontal_move_direction = kb.getch()
 			#if horizontal_move_direction == 'a' or horizontal_move_direction == 'd':
